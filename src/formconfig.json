@@ -1,0 +1,65 @@
+{
+  "id": "0cd624a7-ba10-4b53-82e1-cf12f7b25070",
+  "created_at": "2023-10-06T14:25:33.261284Z",
+  "updated_at": "2023-10-06T14:39:04.426810Z",
+  "name": "Dharmendra Chouhan",
+  "config": {
+    "dd": "double, inline, single",
+    "fields": [
+      {
+        "name": "firstName",
+        "type": "text",
+        "label": "First Name",
+        "required": true,
+        "maxlength": 50,
+        "placeholder": "Enter first name",
+        "col_divide": 6
+      },
+      {
+        "name": "lastName",
+        "type": "text",
+        "label": "Last Name",
+        "required": true,
+        "maxlength": 50,
+        "placeholder": "Enter last name",
+        "col_divide": 6
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "label": "Email Address",
+        "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$",
+        "required": true,
+        "placeholder": "Enter email",
+        "validationMessage": "Enter a valid email address.",
+        "col_divide": 6
+      },
+      {
+        "cols": 30,
+        "name": "agenda",
+        "rows": 5,
+        "type": "textarea",
+        "label": "Agenda",
+        "placeholder": "Any additional agenda...",
+        "col_divide": 6
+      }
+    ],
+    "layout": "double",
+    "heading": "Meeting with Dharmdra",
+    "timezon": "IST",
+    "event_end": "11:00 PM",
+    "form_width": "auto",
+    "start_time": "11:00 AM",
+    "end_time": "8:00 PM",
+    "time_difference": "0 Min",
+    "showBranding": true,
+    "customClickId": "open-form",
+    "form_maxWidth": "100%",
+    "placementSide": "fullScreen",
+    "time_duration": "30 Min",
+    "clickOutsideToClose": false,
+    "start_date":"2023-10-11",
+    "end_date":"2023-10-19"
+  },
+  "org": 3
+}
