@@ -34,7 +34,7 @@ function Schedule(props) {
 
     async function fetchData() {
       try {
-        const data = await axios.get('http://api.flickerp.com/api/v1/marketing/event-configs/4/');
+        const data = await axios.get('http://api.flickerp.com/api/v1/marketing/event-configs/6/');
         setApiData(data?.data);
       } catch (e) {
         console.log(e);

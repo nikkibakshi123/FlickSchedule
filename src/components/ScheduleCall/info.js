@@ -15,7 +15,7 @@ function Info(props) {
   }, [])
 
   const getDynamicForm = async () => {
-    const data = await axios.get('http://api.flickerp.com/api/v1/marketing/event-configs/4/');
+    const data = await axios.get('http://api.flickerp.com/api/v1/marketing/event-configs/6/');
     setApiData(data?.data);
   }
 
@@ -44,7 +44,7 @@ function Info(props) {
                   {/* {jsonData.config.heading} */}
                 </h4>
                 {console.log("Nikki Bakshi", apiData)}
-                {apiData ? <InviteQuestion fields={apiData?.booking_info?.initialQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> : null}
+                {apiData ? <InviteQuestion fields={apiData?.booking_info?.inviteeQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> : null}
                 {/* <DynamicForm fields={apiData?.booking_info?.inviteeQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> */}
               </div>
             </div>
