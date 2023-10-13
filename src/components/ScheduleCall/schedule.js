@@ -1,35 +1,76 @@
-import {useState,useEffect} from "react";
+import './ScheduleCall.css'
+import Calendar from 'react-calendar';
+import { useState, useEffect } from "react";
 import "../../assets/css/style.css";
 import "../../assets/css/responsive.css";
 import "../../assets/css/bootstrape.css";
 import profileImage from "../../assets/images/dharmendra.png";
-
+import 'react-calendar/dist/Calendar.css';
 import formConfig from "../../formconfig.json";
 import { posssibleSlots } from "./slotGenerator";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import axios from 'axios';
+import img from '../../assets/images/dummy.jpg'
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+const datesD = []
 function Schedule(props) {
   const [slots, setSlots] = useState([]);
-  const [date,setDate] = useState(null);
-  const [slot,setSlot] = useState(null);
+  const [date, setDate] = useState(new Date());
+  const [slot, setSlot] = useState(null);
+  const [value, onChange] = useState(new Date());
+  const [apiData, setApiData] = useState(null);
+  const [disabledDates, setDisabledDates] = useState([new Date()]);
 
+  const handleNavigate = () => {
+
+    const nextMonth = new Date(value);
+    nextMonth.setMonth(value.getMonth() + 1);
+    onChange(nextMonth);
+
+  };
   useEffect(() => {
-    const { start_time, end_time, time_difference, time_duration } =
-      formConfig.config;
 
-    setSlots(
-      posssibleSlots({
-        time_duration,
-        start_time,
-        end_time,
-        time_difference,
-      })
-    );
+    async function fetchData() {
+      try {
+        const data = await axios.get('http://api.flickerp.com/api/v1/marketing/event-configs/4/');
+        setApiData(data?.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
 
-    setDate(getTodayDate());
+    fetchData();
   }, []);
-  function nextHandler(){
+  useEffect(() => {
+    if (apiData && value) {
+      const { date_range } = apiData;
+      const formattedDate = `${value.getFullYear()}-${value.getMonth() + 1}-${value.getDate()}`;
+      const selectedDate = date_range[formattedDate];
+      if (selectedDate) {
+        const { start, end } = selectedDate;
+        if (start && end) {
+          setSlots(
+            posssibleSlots({
+              time_duration: '30 min',
+              start_time: start,
+              end_time: end,
+            })
+          );
+        } else {
+          setSlots([]);
+        }
+      }
+    }
+  }, [apiData, value]);
+  function nextHandler() {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const dataObject ={ slot:(!slot?`${slots[0].starts+ '-' +slots[0].ends}`:slot ),date,timeZone}
-    handleClick(dataObject);
+    let dataObject = undefined;
+    if (slots.length > 0)
+      dataObject = { slot: (!slot ? `${slots[0].starts + '-' + slots[0].ends}` : slot), date, timeZone }
+    if (!dataObject) alert('Slot is not selected');
+    else handleClick(dataObject);
   }
   function getTodayDate() {
     const today = new Date();
@@ -38,18 +79,34 @@ function Schedule(props) {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
+
   const handleClick = (dataObject) => {
     props.changeState("info");
     props.setScheduleData(dataObject);
+  };
+  useEffect(() => {
+
+    if (apiData !== null) {
+
+      for (let x in apiData?.date_range) {
+        setDisabledDates(prev => [...prev, new Date(x)]);
+        datesD.push(new Date(x))
+      }
+    }
+  }, [apiData])
+  const isDateDisabled = (date) => {
+
+    const disabledDates = datesD;
+    return !disabledDates.some(disabledDate => date.getDate() === disabledDate.getDate() && date.getMonth() === disabledDate.getMonth() && date.getFullYear() === disabledDate.getFullYear());
   };
   return (
     <div className="row g-0">
       <div className="col-md-4">
         <div className="wizard_right_content">
           <div className="wizard_right_detail text-center">
-            <img src={profileImage} alt="profile"></img>
-            <h4>{formConfig?.name}</h4>
-            <span>Sales Manager</span>
+            <img src={(apiData?.employee?.img) ? apiData?.employee?.img : img} alt="profile"></img>
+            <h4>{`${apiData?.employee?.user?.firstname} ${apiData?.employee?.user?.lastname}`}</h4>
+            <span>{apiData?.employee?.designation?.name}</span>
           </div>
         </div>
       </div>
@@ -59,40 +116,62 @@ function Schedule(props) {
             <h4 className="text-center form-title">Schedule a call</h4>
             <form action="" className="form__time">
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-7">
                   <div className="date">
                     <label for="date">Date*</label>
                     <br />
-                    <input 
-                      id="date" 
-                      type="date"
-                      defaultValue={getTodayDate()}
-                      min={formConfig.config.start_date}
-                      max={formConfig.config.end_date}
-                      onChange={(e)=>setDate(e.target.value)}
+                    <div className='custom-navigation'>
+                      <div className='current-date'>
+                        <h3>{monthNames[value.getMonth()]} {value.getFullYear()}</h3>
+                      </div>
+                      <div className='next-navigate-button'>
+                        <ArrowForwardIcon onClick={handleNavigate} />
+                      </div>
+                    </div>
+                    <Calendar
+                      onChange={onChange}
+                      month={value}
+                      allowPartialRange={true}
+                      defaultActiveStartDate={new Date()}
+                      value={value}
+                      view='month'
+                      showNeighboringMonth={false}
+                      showNavigation={true}
+                      tileDisabled={({ date }) => isDateDisabled(date)}
                     />
+
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-5">
                   <div className="time">
                     <label for="time">Time*</label>
+
                     <br />
-                    <select
-                    onChange={(e)=>{
-                      setSlot(e.target.value);
-                      }}> 
-                      {slots?.map((data, i) => {
+
+                    {slots.length > 0 ? <div className='slot-container'>
+
+                      {slots.map((data, i) => {
                         return (
-                          <option key={i}>
-                    
-                                <h3>
-                                {data.starts} - {data.ends}
-                              </h3>
-                        
-                          </option>
+                          <div
+                            className='slot' key={i}
+                            onClick={() => {
+                              setSlot(`${data.starts} - ${data.ends}`)
+                            }}
+                          >
+                            <p >
+                              {data.starts} - {data.ends}
+                            </p>
+                          </div>
                         );
                       })}
-                    </select>
+                    </div> : <div style={{
+                      color: 'red',
+                      fontFamily: 'sans-serif',
+                      fontWeight: 600,
+                      textSize: '30px'
+                    }}>
+                      <p>No Slots availabel for this date</p>
+                    </div>}
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -184,16 +263,7 @@ function Schedule(props) {
                     </select>
                   </div>
                 </div>
-                {/* <div className="col-md-12">
-                  <div className="timezone">
-                    <label for="timezone">How long do you need?*</label>{" "}
-                    <select name="timezone">
-                      <option onClick={setDuration('15 Min')} value="22">15 Min</option>
-                      <option onClick={setDuration('')} value="23">30 Min</option>
-                      <option value="24">1 Hours</option>
-                    </select>
-                  </div>
-                </div> */}
+
               </div>
             </form>
             <div className="form-group text-end">

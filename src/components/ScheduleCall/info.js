@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/css/style.css";
 import "../../assets/css/responsive.css";
 import "../../assets/css/bootstrape.css";
-import profileImage from "../../assets/images/dharmendra.png";
-import jsonData from "../../formconfig.json";
-import DynamicForm from "../../common/DynamicForm/dynamicform";
+import axios from "axios";
+import img from '../../assets/images/dummy.jpg'
+import InviteQuestion from "../../common/DynamicForm/InviteQuestion";
 
 function Info(props) {
-  console.log("jsonData",jsonData);
+  const [apiData, setApiData] = useState(null);
+  console.log("fdsghbfdghjdfsgnjlkrds");
+
+  useEffect(() => {
+    getDynamicForm();
+  }, [])
+
+  const getDynamicForm = async () => {
+    const data = await axios.get('http://api.flickerp.com/api/v1/marketing/event-configs/4/');
+    setApiData(data?.data);
+  }
+
   const goBack = () => {
     props.changeState("schedule");
   };
+
 
   return (
     <>
@@ -18,9 +30,9 @@ function Info(props) {
         <div className="col-md-4">
           <div className="wizard_right_content">
             <div className="wizard_right_detail text-center">
-              <img src={profileImage} alt="profile"></img>
-              <h4>{jsonData?.name}</h4>
-              <span>Sales Manager</span>
+              <img src={(apiData?.employee?.img) ? apiData?.employee?.img : img} alt="profile"></img>
+              <h4>{`${apiData?.employee?.user?.firstname} ${apiData?.employee?.user?.lastname}`}</h4>
+              <span>{apiData?.employee?.designation?.name}</span>
             </div>
           </div>
         </div>
@@ -29,9 +41,11 @@ function Info(props) {
             <div className="form-containers animated">
               <div className="form-container animated">
                 <h4 className="text-center form-title">
-                  {jsonData.config.heading}
+                  {/* {jsonData.config.heading} */}
                 </h4>
-                <DynamicForm fields={jsonData.config.fields} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} />
+                {console.log("Nikki Bakshi", apiData)}
+                {apiData ? <InviteQuestion fields={apiData?.booking_info?.initialQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> : null}
+                {/* <DynamicForm fields={apiData?.booking_info?.inviteeQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> */}
               </div>
             </div>
           </div>

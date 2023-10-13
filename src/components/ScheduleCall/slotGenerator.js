@@ -9,6 +9,7 @@ function formatConverter(obj) {
 }
 
 function posssibleSlots(timeObj) {
+    timeObj['time_difference'] = '0 min'
     let finalSlots = [];
     const {
         time_duration,
@@ -62,7 +63,8 @@ function posssibleSlots(timeObj) {
         return timeStr;
     }
     for (let x = 0; x < Math.floor(slots); x++) {
-        let start = x === 0 ? start_time : genTime(finalSlots[x - 1].starts, true)
+        const startTime = Number(start_time) <= 12 ? start_time + ' AM' : start_time + ' PM';
+        let start = x === 0 ? startTime : genTime(finalSlots[x - 1].starts, true)
         let end = genTime(start, undefined);
         finalSlots[x] = {
             starts: start,

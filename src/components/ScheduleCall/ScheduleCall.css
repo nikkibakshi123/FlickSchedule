@@ -1,0 +1,139 @@
+ .react-calendar {
+     width: 354px !important;
+     border-bottom-left-radius: 5px;
+     border-bottom-right-radius: 5px;
+ }
+
+
+ .react-calendar__tile:disabled {
+     background-color: #f0f0f0 !important;
+ }
+
+
+
+ .react-calendar__tile--disabled {
+     background: white !important;
+ }
+
+ .react-calendar__tile {
+     max-width: 40px !important;
+     height: 38px !important;
+     background: rgb(175, 238, 254) !important;
+     border-radius: 35px !important;
+     margin-right: 10px !important;
+     padding: 3px !important;
+     /* margin-left: 6.5px !important; */
+     margin-bottom: 3px !important;
+ }
+
+ .react-calendar__tile--active {
+     background: #07255E !important;
+     color: white;
+ }
+
+ .react-calendar__month-view__weekdays {
+     width: 100%;
+     padding-left: 3px;
+     border: solid grey 0.01px;
+     color: #676b72;
+     line-height: 22px;
+     font-family: sans-serif;
+ }
+
+ .react-calendar__month-view__weekdays__weekday abbr {
+     text-decoration: none !important;
+     text-transform: none !important;
+ }
+
+ .slot-container {
+     height: 320px;
+     width: 200px;
+     color: black;
+     overflow: auto;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 2px;
+     border-radius: 5px;
+     /* border: gray solid 1px; */
+     padding: 5px 0px 5px 0px;
+
+ }
+
+ .slot {
+     color: black !important;
+     font-family: sans-serif;
+     font-weight: 600;
+     border: solid #aeaeae 2.2px;
+     border-radius: 10px;
+     height: 40px;
+     padding: 5px;
+     background-color: #ffff;
+     margin: 2px;
+     cursor: pointer;
+ }
+
+ .slot:hover {
+     background: darkgray;
+
+ }
+
+ .custom-navigation {
+     height: 40px;
+     background: grey;
+     width: 354px;
+     border-top-right-radius: 5px;
+     border-top-left-radius: 5px;
+     display: flex;
+ }
+
+ /* .slot:not(:active) {
+     transition: background-color 1000ms step-end;
+ } */
+
+ .slot:active {
+     background-color: #0056b3;
+     /* Change background color when button is pressed */
+     transition: background-color 0.1s;
+ }
+
+ .current-date {
+
+     display: flex;
+     height: 100%;
+     width: 90%;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .current-date h3 {
+     margin: 0px;
+     padding: 0px;
+     font-family: sans-serif;
+     font-weight: 600;
+ }
+
+ .next-navigate-button {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: white !important;
+     width: 10%;
+     height: 100%;
+ }
+
+ .next-navigate-button svg {
+     cursor: pointer;
+ }
+
+ .next-navigate-button svg:active {
+     color: #0056b3;
+     /* Change background color when button is pressed */
+     transition: background-color 0.1s;
+ }
+
+ .next-navigate-button svg:not(:active) {
+     color: white;
+
+     transition: color 400ms step-end;
+ }

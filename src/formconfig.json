@@ -51,15 +51,34 @@
     "form_width": "auto",
     "start_time": "11:00 AM",
     "end_time": "8:00 PM",
-    "time_difference": "0 Min",
     "showBranding": true,
     "customClickId": "open-form",
     "form_maxWidth": "100%",
     "placementSide": "fullScreen",
     "time_duration": "30 Min",
     "clickOutsideToClose": false,
-    "start_date":"2023-10-11",
-    "end_date":"2023-10-19"
+    "start_date": "2023-10-11",
+    "end_date": "2023-10-19",
+    "date_object": [
+      {
+        "date": "2023-10-13",
+        "start_time": "11:00 AM",
+        "time_duration": "30 Min",
+        "end_time": "08:00 PM"
+      },
+      {
+        "date": "2023-10-14",
+        "start_time": "12:30 AM",
+        "time_duration": "30 Min",
+        "end_time": "07:30 PM"
+      },
+      {
+        "date": "2023-10-15",
+        "start_time": "11:30 AM",
+        "time_duration": "30 Min",
+        "end_time": "8:00 PM"
+      }
+    ]
   },
   "org": 3
 }
