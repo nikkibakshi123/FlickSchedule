@@ -494,7 +494,7 @@ span.second {
   font-weight: 600;
 }
 
-.text-area {
+.form-containers textarea {
   width: 100%;
   padding: 7px 10px;
   margin-bottom: 20px;
@@ -504,5 +504,10 @@ span.second {
   background: #f8f8f8;
   border: 1px solid #0000002e;
 }
+
+.row{
+  text-align: initial;
+}
+
 
 @media (max-width: 767px) {}

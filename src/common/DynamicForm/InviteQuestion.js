@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import "../../assets/css/style.css";
 
 function renderInput(question, formData, setFormData) {
   const handleInputChange = (event) => {
@@ -52,18 +53,24 @@ function InviteQuestion({ fields, goBack, changeState, scheduleData }) {
   const [formData, setFormData] = useState({});
 
   async function handleSubmit(event) {
-    event.preventDefault(); 
-    
-    const finalObject={
-      scheduleData,
-      formData
+    event.preventDefault();
+    const date = scheduleData.Date;
+    const finalDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const time = scheduleData.slot.split(' ')[0];
+    const finalObject = {
+      date: finalDate,
+      time: time,
+      timezone: scheduleData.timeZone,
+      booking_info: formData,
+      org: 4,
+      event_config: 4
     }
-console.log(finalObject);
-    try{
-      let response = await axios.post(process.env.REACT_APP_URL_POST,formData);
+    console.log(finalObject);
+    try {
+      let response = await axios.post(process.env.REACT_APP_URL_POST, finalObject);
       console.log(response);
-      alert(response.code);
-    }catch(e){
+      alert(response.status);
+    } catch (e) {
       console.log(e);
     }
   }
