@@ -60,7 +60,7 @@ function Schedule(props) {
     if (slots.length > 0)
       dataObject = {
         slot: !slot ? `${slots[0].starts + "-" + slots[0].ends}` : slot,
-        value,
+        Date:value,
         timeZone,
       };
     if (!dataObject) alert("Slot is not selected");

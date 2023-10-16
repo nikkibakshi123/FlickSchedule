@@ -4,9 +4,48 @@ import "../../assets/css/responsive.css";
 import "../../assets/css/bootstrape.css";
 import axios from "axios";
 import img from '../../assets/images/dummy.jpg'
+import DynamicForm from "../../common/DynamicForm/dynamicform";
 import InviteQuestion from "../../common/DynamicForm/InviteQuestion";
 
 function Info(props) {
+
+  const dummyData = [
+    {
+      "status": true,
+      "options": null,
+      "required": true,
+      "answerType": "text",
+      "questionText": "Name"
+    },
+    {
+      "status": true,
+      "options": null,
+      "required": true,
+      "answerType": "email",
+      "questionText": "Email"
+    },
+    {
+      "status": true,
+      "options": null,
+      "required": true,
+      "answerType": "text",
+      "questionText": "Allow invitees to add guests"
+    },
+    {
+      "status": true,
+      "options": null,
+      "required": true,
+      "answerType": "number",
+      "questionText": "Phone Number"
+    },
+    {
+      "status": true,
+      "options": null,
+      "required": true,
+      "answerType": "textarea",
+      "questionText": "Description"
+    }
+  ]
   const [apiData, setApiData] = useState(null);
   console.log("fdsghbfdghjdfsgnjlkrds");
 
@@ -44,8 +83,9 @@ function Info(props) {
                   {/* {jsonData.config.heading} */}
                 </h4>
                 {console.log("Nikki Bakshi", apiData)}
-                {apiData ? <InviteQuestion fields={apiData?.booking_info?.inviteeQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> : null}
-                {/* <DynamicForm fields={apiData?.booking_info?.inviteeQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> */}
+              <InviteQuestion fields={dummyData} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> 
+                {/* {apiData ? <InviteQuestion fields={apiData?.booking_info?.inviteeQuestion} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> : null} */}
+                {/* <DynamicForm fields={dummyData} goBack={goBack} changeState={props.changeState} scheduleData={props.scheduleData} /> */}
               </div>
             </div>
           </div>
